@@ -72,36 +72,6 @@ fun Account(navController: NavController) {
     }
 }
 
-//@Composable
-//fun ProfileCard() {
-//    Card(
-//        shape = RoundedCornerShape(18.dp),
-//        colors = CardDefaults.cardColors(containerColor = Color.White),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(top = 30.dp)
-//            .padding(16.dp)
-//    ) {
-//        Column(modifier = Modifier.padding(16.dp)) {
-//            ProfileSection(Modifier.clickable { /* Handle Profile Click */ })
-////            Spacer(modifier = Modifier.height(8.dp))
-//        }
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .clickable { /* Handle Elite Membership Click */ }
-//                .background(
-//                    Color.Black,
-//                    shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
-//                )
-//                .padding(16.dp),
-//            contentAlignment = Alignment.CenterStart
-//        ) {
-//            Text("Elite Membership", color = Color.Yellow, fontWeight = FontWeight.Bold)
-//        }
-//    }
-//}
-
 @Composable
 fun ProfileCard() {
     Card(
@@ -192,7 +162,7 @@ fun ProfileSection(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text("Onkar More", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text("+91 8999454017", color = Color.Gray, fontSize = 14.sp)
+            Text("+91 8999454016", color = Color.Gray, fontSize = 14.sp)
         }
         Spacer(modifier = Modifier.weight(1f))
         CoinDisplay(0)
@@ -453,7 +423,6 @@ fun AppVersionSection() {
         )
     }
 }
-
 
 @Composable
 fun CustomDivider() {

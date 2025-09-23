@@ -2,6 +2,7 @@ package com.example.beautyapp.ui.screens
 
 import android.annotation.SuppressLint
 import android.webkit.WebView
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -46,114 +48,253 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
+import java.lang.Float.min
+
+//@Composable
+//fun MenHomeScreen(navController: NavController) {
+//    val scrollState = rememberScrollState()
+//
+//    // Track background color dynamically based on scroll position
+//    val backgroundColor by remember {
+//        derivedStateOf {
+//            if (scrollState.value > 100) Color.White else Color.Transparent
+//        }
+//    }
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .verticalScroll(rememberScrollState()) // Ensures full screen is scrollable
+//            .padding(bottom = 56.dp) // Space for bottom navigation bar
+//    ) {
+//        Box(modifier = Modifier.fillMaxSize())
+//        {
+//            Image(
+//                painter = rememberAsyncImagePainter(model = "https://yourimageurl.com/banner.png"),
+//                contentDescription = "Promo Banner",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(385.dp)
+//            )
+//            Column(
+//            ) {
+//                // 🔹 Location & Buy Elite Section
+//                Row(
+//                    modifier = Modifier
+//                        .clickable { navController.navigate("location") }
+//                        .fillMaxWidth()
+//                        .padding(16.dp),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//                    Column {
+//                        Row(verticalAlignment = Alignment.CenterVertically) { // Keeps text and icon in one line
+//                            Text(
+//                                text = "Dhanori",
+//                                fontWeight = FontWeight.Bold,
+//                                fontSize = 18.sp
+//                            )
+//                            Icon(
+//                                imageVector = Icons.Default.ArrowDropDown,
+//                                contentDescription = "Dropdown Arrow",
+//                                modifier = Modifier
+//                                    .size(30.dp)
+//                                    .padding(start = 4.dp) // Adds space between text and icon
+//                            )
+//                        }
+//                        Text(
+//                            "1, Dhanori-Lohegaon Rd, Parande...",
+//                            fontSize = 12.sp,
+//                            color = Color.Gray
+//                        )
+//                    }
+//                    Button(
+//                        onClick = { /* Handle Buy Elite */ },
+//                        colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)), // Gold Color
+//                        shape = CircleShape
+//                    ) {
+//                        Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
+//                    }
+//                }
+//                // 🔹 Search Bar
+//                MenAnimatedSearchBar(navController)
+//            }
+//        }
+//
+//        // 🔹 Loot of the Year Row
+//        MenMarqueeText()
+//
+//        //OffersSection()
+//
+//        // 🔹 Everything That You Need - Services Section
+//        Text(
+//            text = "Everything That You Need",
+//            fontWeight = FontWeight.Bold,
+//            fontSize = 18.sp,
+//            modifier = Modifier.padding(8.dp)
+//        )
+//
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .horizontalScroll(rememberScrollState())
+//                .padding(horizontal = 16.dp)
+//        ) {
+//            MenServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
+//            MenServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
+//            MenServiceItem(R.drawable.ic_launcher_foreground, "Advance")
+//            //ServiceItem(R.drawable.ic_launcher_background, "") // Placeholder for last item
+//        }
+//        Spacer(modifier = Modifier.height(15.dp))
+//        MenEliteBanner()
+//        Spacer(modifier = Modifier.height(28.dp)) // ✅ Add Space Between Both Sections
+//        MenTrendingServicesSection()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        MenChatWithCosmetologist()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        VideoListScreen(navController)
+//        Spacer(modifier = Modifier.height(40.dp))
+//    }
+//}
 
 @Composable
 fun MenHomeScreen(navController: NavController) {
-    val scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
 
-    // Track background color dynamically based on scroll position
-    val backgroundColor by remember {
-        derivedStateOf {
-            if (scrollState.value > 100) Color.White else Color.Transparent
-        }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Ensures full screen is scrollable
-            .padding(bottom = 56.dp) // Space for bottom navigation bar
-    ) {
-        Box(modifier = Modifier.fillMaxSize())
-        {
-            Image(
-                painter = rememberAsyncImagePainter(model = "https://yourimageurl.com/banner.png"),
-                contentDescription = "Promo Banner",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(385.dp)
-            )
-            Column(
-            ) {
-                // 🔹 Location & Buy Elite Section
+    // Color changes only when the user has scrolled
+    val hasScrolled = listState.firstVisibleItemIndex > 0 ||
+            listState.firstVisibleItemScrollOffset > 0
+
+    // Choose colors blased on scroll state
+    val targetColor = if (hasScrolled) Color.Blue else Color.Red
+
+    // Animate the transition
+    val animatedColor by animateColorAsState(
+        targetValue = targetColor,
+        label = "bgColor"
+    )
+
+    val scrollState = rememberScrollState()
+//
+//// Calculate alpha based on scroll position (max alpha at 300dp scroll)
+//    val backgroundColor by remember {
+//        derivedStateOf {
+//            val alpha = (scrollState.value.coerceIn(0, 300)) / 300f
+//            Color.Gray.copy(alpha = alpha)
+//        }
+//    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🔹 1. Background Scrollable Content
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // 🔹 Banner image (scrolls behind)
+            item {
+                Image(
+                    painter = rememberAsyncImagePainter("https://yourimageurl.com/banner.png"),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(385.dp)
+                )
+            }
+
+            // 🔹 Space to push content below sticky header
+            item {
+                Spacer(modifier = Modifier.height(120.dp)) // Push rest of content below sticky header
+            }
+
+            // 🔹 Loot of Year & Sections
+            item { MenMarqueeText() }
+
+            item {
+                Text(
+                    text = "Everything That You Need",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+
+            item {
                 Row(
                     modifier = Modifier
-                        .clickable { navController.navigate("location") }
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp)
                 ) {
-                    Column {
-                        Row(verticalAlignment = Alignment.CenterVertically) { // Keeps text and icon in one line
-                            Text(
-                                text = "Dhanori",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp
-                            )
-                            Icon(
-                                imageVector = Icons.Default.ArrowDropDown,
-                                contentDescription = "Dropdown Arrow",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .padding(start = 4.dp) // Adds space between text and icon
-                            )
-                        }
-                        Text(
-                            "1, Dhanori-Lohegaon Rd, Parande...",
-                            fontSize = 12.sp,
-                            color = Color.Gray
-                        )
-                    }
-                    Button(
-                        onClick = { /* Handle Buy Elite */ },
-                        colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)), // Gold Color
-                        shape = CircleShape
-                    ) {
-                        Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
-                    }
+                    MenServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
+                    MenServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
+                    MenServiceItem(R.drawable.ic_launcher_foreground, "Advance")
                 }
-                // 🔹 Search Bar
-                MenAnimatedSearchBar(navController)
             }
+
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { MenEliteBanner() }
+            item { Spacer(modifier = Modifier.height(28.dp)) }
+            item { MenTrendingServicesSection() }
+            item { Spacer(modifier = Modifier.height(28.dp)) }
+            item { MenChatWithCosmetologist() }
+            item { Spacer(modifier = Modifier.height(28.dp)) }
+            item { VideoListScreen(navController) }
+            item { Spacer(modifier = Modifier.height(40.dp)) }
         }
 
-        // 🔹 Loot of the Year Row
-        MenMarqueeText()
-
-        //OffersSection()
-
-        // 🔹 Everything That You Need - Services Section
-        Text(
-            text = "Everything That You Need",
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(8.dp)
-        )
-
-        Row(
+        // 🔹 2. Sticky Location + Search Section - Overlayed on top
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+                .background(animatedColor)
+                .zIndex(1f)
+                .padding(16.dp)
         ) {
-            MenServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
-            MenServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
-            MenServiceItem(R.drawable.ic_launcher_foreground, "Advance")
-            //ServiceItem(R.drawable.ic_launcher_background, "") // Placeholder for last item
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { navController.navigate("location") },
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "Dhanori",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "Dropdown Arrow",
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+                    Text(
+                        "1, Dhanori-Lohegaon Rd, Parande...",
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+                }
+
+                Button(
+                    onClick = { /* Handle Buy Elite */ },
+                    colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)),
+                    shape = CircleShape
+                ) {
+                    Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+            MenAnimatedSearchBar(navController)
         }
-        Spacer(modifier = Modifier.height(15.dp))
-        MenEliteBanner()
-        Spacer(modifier = Modifier.height(28.dp)) // ✅ Add Space Between Both Sections
-        MenTrendingServicesSection()
-        Spacer(modifier = Modifier.height(28.dp))
-        MenChatWithCosmetologist()
-        Spacer(modifier = Modifier.height(28.dp))
-        VideoListScreen(navController)
     }
 }
+
+
 
 @Composable
 fun MenMarqueeText() {
@@ -325,18 +466,30 @@ fun MenTrendingServicesSection() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+//            .background(
+//                brush = Brush.verticalGradient(
+//                    colors = listOf(
+//                        Color(0x80F3E5D8),  // Darker peach at the top with reduced opacity
+//                        Color(0x80FDF1E4),  // Lighter peach with reduced opacity
+//                        Color(0x80FFFFFF),   // Middle fully white with reduced opacity
+//                        Color(0x80FFFFFF),   // Ensures full white section with reduced opacity
+//                        Color(0x80FDF1E4),   // Fades back to peach with reduced opacity
+//                        Color(0x80F3E5D8)    // Darker peach at the bottom with reduced opacity
+//                    ),
+//                    startY = 0f, // Starts from the top
+//                    endY = Float.POSITIVE_INFINITY // Extends downward
+//                )
+//            ),
+
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0x80F3E5D8),  // Darker peach at the top with reduced opacity
-                        Color(0x80FDF1E4),  // Lighter peach with reduced opacity
-                        Color(0x80FFFFFF),   // Middle fully white with reduced opacity
-                        Color(0x80FFFFFF),   // Ensures full white section with reduced opacity
-                        Color(0x80FDF1E4),   // Fades back to peach with reduced opacity
-                        Color(0x80F3E5D8)    // Darker peach at the bottom with reduced opacity
-                    ),
-                    startY = 0f, // Starts from the top
-                    endY = Float.POSITIVE_INFINITY // Extends downward
+                        Color(0xFFF3E5D8).copy(alpha = 0.4f),
+                        Color(0xFFFDF1E4).copy(alpha = 0.4f),
+                        Color.White.copy(alpha = 0.3f),
+                        Color(0x80FDF1E4).copy(alpha = 0.4f),
+                        Color(0x80F3E5D8).copy(alpha = 0.4f),
+                    )
                 )
             ),
         horizontalAlignment = Alignment.CenterHorizontally

@@ -33,7 +33,7 @@ fun MyAppointmentsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF4F3F8)), // Background color as in image
+            .background(Color(0xFFF4F3F8)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -53,7 +53,7 @@ fun MyAppointmentsScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val image: Painter = painterResource(id = R.drawable.aa) // Replace with your image resource
+            val image: Painter = painterResource(id = R.drawable.aa)
             Image(
                 painter = image,
                 contentDescription = "No bookings found",

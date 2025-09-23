@@ -67,9 +67,13 @@ dependencies {
     // Compose Navigation
     implementation("androidx.navigation:navigation-compose:2.8.8")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.1.0")
-
-//    implementation("androidx.compose.foundation:foundation:1.7.8") // Ensure latest Compose version
-//    implementation("androidx.compose.foundation:foundation-pager:1.0.0") // For Pager support
+    implementation("com.google.accompanist:accompanist-pager:0.23.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.androidx.foundation)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
