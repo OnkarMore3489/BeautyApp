@@ -1,4 +1,4 @@
-package com.example.beautyapp.ui.screens
+package com.beautyfox.customerapp.home.man
 
 import android.annotation.SuppressLint
 import android.webkit.WebView
@@ -13,22 +13,18 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -41,10 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.example.beautyapp.R
+import com.beautyfox.customerapp.R
 import kotlinx.coroutines.delay
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -259,11 +254,11 @@ fun MenAnimatedSearchBar(navController: NavController) {
         placeholder = { Text(text) }, // Letter-by-letter animated placeholder
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
         shape = RoundedCornerShape(19.dp), // Fully rounded corners
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = Color.White, // Brighter background
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
+//        colors = TextFieldDefaults.outlinedTextFieldColors(
+//            containerColor = Color.White, // Brighter background
+//            focusedBorderColor = MaterialTheme.colorScheme.primary,
+//            unfocusedBorderColor = Color.Gray
+//        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)

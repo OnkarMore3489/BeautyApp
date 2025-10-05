@@ -1,10 +1,9 @@
-package com.example.beautyapp.ui.screens
+package com.beautyfox.customerapp.account
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.res.painterResource
-import com.example.beautyapp.R
+import com.beautyfox.customerapp.R
 
 @Composable
 fun Account(navController: NavController) {
@@ -191,8 +190,8 @@ fun ProfileSection(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
-            Text("Onkar More", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text("+91 8999454017", color = Color.Gray, fontSize = 14.sp)
+            Text("Customer Name", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text("+91 **********", color = Color.Gray, fontSize = 14.sp)
         }
         Spacer(modifier = Modifier.weight(1f))
         CoinDisplay(0)

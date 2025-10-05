@@ -1,4 +1,4 @@
-package com.example.beautyapp.ui.theme
+package com.beautyfox.customerapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.example.beautyapp.ui.screens
+package com.beautyfox.customerapp.booking
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.beautyapp.R
+import com.beautyfox.customerapp.R
 
 @Composable
 fun Booking(navController: NavController) {

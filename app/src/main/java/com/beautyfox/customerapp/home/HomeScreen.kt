@@ -1,7 +1,5 @@
-package com.example.beautyapp.ui.screens
+package com.beautyfox.customerapp.home
 
-import android.annotation.SuppressLint
-import android.webkit.WebView
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -23,7 +21,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
@@ -38,15 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.example.beautyapp.R
+import com.beautyfox.customerapp.R
 import kotlinx.coroutines.delay
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.viewinterop.AndroidView
-import coil.compose.AsyncImage
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -363,8 +357,8 @@ fun CustomBottomNavigationBar(navController: NavController) {
     val selectedColor = Color(0xFF9B2242) // Pinkish-red selected color
 
     val items = listOf(
-        BottomNavItem("Women", R.drawable.ic_launcher_foreground),
-        BottomNavItem("Men", R.drawable.ic_launcher_foreground),
+        BottomNavItem("Home", R.drawable.ic_launcher_foreground),
+        BottomNavItem("Offers", R.drawable.ic_launcher_foreground),
         BottomNavItem("Booking", R.drawable.ic_launcher_foreground),
         BottomNavItem("Account", R.drawable.ic_launcher_foreground)
     )
@@ -535,10 +529,10 @@ fun AnimatedSearchBar(navController: NavController) {
         placeholder = { Text(text) }, // Letter-by-letter animated placeholder
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
         shape = RoundedCornerShape(19.dp), // Fully rounded corners
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = Color.White, // Brighter background
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = Color.Gray
+        colors = TextFieldDefaults.colors(
+//            containerColor = Color.White, // Brighter background
+//            focusedBorderColor = MaterialTheme.colorScheme.primary,
+//            unfocusedBorderColor = Color.Gray
         ),
         modifier = Modifier
             .fillMaxWidth()

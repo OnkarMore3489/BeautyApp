@@ -1,4 +1,4 @@
-package com.example.beautyapp.ui.navigation
+package com.beautyfox.customerapp.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
@@ -6,13 +6,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.beautyapp.ui.screens.Account
-import com.example.beautyapp.ui.screens.Booking
-import com.example.beautyapp.ui.screens.CustomBottomNavigationBar
-import com.example.beautyapp.ui.screens.HomeScreen
-import com.example.beautyapp.ui.screens.LocationScreen
-import com.example.beautyapp.ui.screens.MenHomeScreen
-import com.example.beautyapp.ui.screens.ServiceSearchScreen
+import com.beautyfox.customerapp.account.Account
+import com.beautyfox.customerapp.booking.Booking
+import com.beautyfox.customerapp.home.CustomBottomNavigationBar
+import com.beautyfox.customerapp.home.HomeScreen
+import com.beautyfox.customerapp.LocationScreen
+import com.beautyfox.customerapp.home.man.MenHomeScreen
+import com.beautyfox.customerapp.offers.OffersScreen
+import com.beautyfox.customerapp.search.ServiceSearchScreen
 
 //@Composable
 //fun AppNavHost(navController: NavHostController) {
@@ -41,7 +42,7 @@ fun AppNavHost(navController: NavHostController) {
             // Screens with Bottom Navigation
             composable("home") { HomeScreen(navController) }
             composable("men") { MenHomeScreen(navController) }
-            composable("home") { HomeScreen(navController) }
+            composable("Offers") { OffersScreen(navController) }
             composable("account") { Account(navController) }
             composable("booking") { Booking(navController) }
         }

@@ -3,5 +3,10 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.hiltAndroid) apply false
+//    alias(libs.plugins.kspAndroid) apply false
+//    id ("org.jetbrains.kotlin.android") version "1.9.22" apply false
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17" apply false
 }
 true // Needed to make the Suppress annotation work for the plugins block
+

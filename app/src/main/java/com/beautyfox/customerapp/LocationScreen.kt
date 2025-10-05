@@ -1,4 +1,4 @@
-package com.example.beautyapp.ui.screens
+package com.beautyfox.customerapp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

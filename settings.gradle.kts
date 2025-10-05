@@ -7,9 +7,17 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
+//    resolutionStrategy {
+//        eachPlugin {
+//            if( requested.id.id == "com.google.dagger.hilt.android") {
+//                useModule("com.google.dagger:hilt-android:2.53")
+//            }
+//        }
+//    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
