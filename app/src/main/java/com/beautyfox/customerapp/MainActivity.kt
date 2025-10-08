@@ -34,11 +34,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         Log.d("Test", "Oncreate")
 //     GlobalScope.launch {
-//         Log.d("Test", "Before printing response")
-//            val response = offersApi.getOffers()
-//         Log.d("Test", "after api call")
-//            Log.d("Test", response.body().toString())
-//        }
+////         Log.d("Test", "Before printing response")
+////            val response = offersApi.getOffers()
+////         Log.d("Test", "after api call")
+////            Log.d("Test", response.body().toString())
+////        }
 
         setContent {
             BeautyAppTheme {

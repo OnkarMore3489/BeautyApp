@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.kotlinCompose)
     id("com.google.devtools.ksp")
  //   alias(libs.plugins.kspAndroid)
    }
@@ -44,7 +45,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -63,21 +64,28 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    implementation("io.coil-kt:coil-compose:2.6.0") // Latest version
+    implementation(libs.coil.compose) // Latest version
 
     // Jetpack Compose BOM (Ensures version compatibility)
     implementation(platform(libs.androidx.compose.bom.v20240100))
     implementation(libs.androidx.material.icons.extended) // Use latest version
 
     // Compose Navigation
-    implementation("androidx.navigation:navigation-compose:2.9.5")
-    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
-    implementation("androidx.hilt:hilt-common:1.3.0")
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.1.0")
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.accompanist.pager)
+
+
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.foundation)
+    implementation(libs.play.services.location)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     //HILT
     implementation(libs.google.dagger.hilt)
