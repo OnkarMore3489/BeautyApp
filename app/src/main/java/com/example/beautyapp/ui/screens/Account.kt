@@ -1,10 +1,10 @@
 package com.example.beautyapp.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,10 +18,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.ripple.rememberRipple
 import com.example.beautyapp.R
 
 @Composable
-fun Account(navController: NavController) {
+fun Account(
+    navController: NavController,
+    isLoggedIn: Boolean,
+    onLoginSuccess: () -> Unit,
+    onLogout: () -> Unit
+) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -29,7 +36,12 @@ fun Account(navController: NavController) {
             .background(Color(0xFFF8F6F8))
     ) {
         // ProfileCard (Fixed at the top)
-        ProfileCard()
+        ProfileCard(
+            navController,
+            isLoggedIn = isLoggedIn,
+            onLoginSuccess = onLoginSuccess,
+            onLogout = onLogout
+        )
 
         // Scrollable content below WalletSection
         Box(
@@ -62,7 +74,9 @@ fun Account(navController: NavController) {
                     Spacer(modifier = Modifier.height(15.dp))
                     OtherInfo()
                     Spacer(modifier = Modifier.height(15.dp))
-                    LogOut()
+                    if (isLoggedIn) {
+                        LogOut(onLogoutConfirmed = { onLogout() })
+                    }
                     Spacer(modifier = Modifier.height(15.dp))
                     AppVersionSection()
                     Spacer(modifier = Modifier.height(50.dp))
@@ -72,66 +86,59 @@ fun Account(navController: NavController) {
     }
 }
 
-//@Composable
-//fun ProfileCard() {
-//    Card(
-//        shape = RoundedCornerShape(18.dp),
-//        colors = CardDefaults.cardColors(containerColor = Color.White),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(top = 30.dp)
-//            .padding(16.dp)
-//    ) {
-//        Column(modifier = Modifier.padding(16.dp)) {
-//            ProfileSection(Modifier.clickable { /* Handle Profile Click */ })
-////            Spacer(modifier = Modifier.height(8.dp))
-//        }
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .clickable { /* Handle Elite Membership Click */ }
-//                .background(
-//                    Color.Black,
-//                    shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
-//                )
-//                .padding(16.dp),
-//            contentAlignment = Alignment.CenterStart
-//        ) {
-//            Text("Elite Membership", color = Color.Yellow, fontWeight = FontWeight.Bold)
-//        }
-//    }
-//}
-
 @Composable
-fun ProfileCard() {
+fun ProfileCard(
+    navController: NavController,
+    isLoggedIn: Boolean,
+    onLoginSuccess: () -> Unit,
+    onLogout: () -> Unit
+) {
+    // Remember any icon/vector resources safely
+    val arrowIcon = remember { Icons.Default.ChevronRight }
+
     Card(
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 30.dp)
-            .padding(16.dp)
+            .padding(top = 30.dp, start = 16.dp, end = 16.dp)
     ) {
+        // Profile section (can be uncommented if needed)
         Column(modifier = Modifier.padding(16.dp)) {
-            ProfileSection(Modifier.clickable { /* Handle Profile Click */ })
+            ProfileSection(
+                isLoggedIn = isLoggedIn,
+                onLoginSuccess = onLoginSuccess,
+                onLogout = onLogout,
+                onNavigateToProfile = {
+                    navController.navigate("profile") // your composable route
+                }
+            )
+
         }
 
+        // ✅ Moved Box inside Card with no recomposition issues
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { /* Handle Elite Membership Click */ }
+                .clickable(
+                    indication = rememberRipple(),
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { /* Handle Elite Membership Click */ }
                 .background(
                     Color.Black,
-                    shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                    shape = RoundedCornerShape(
+                        bottomStart = 12.dp,
+                        bottomEnd = 12.dp
+                    )
                 )
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Left side: Hexagon Icon + "Elite Membership" text
+                // 🔹 Left side: Icon + Text
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -140,7 +147,7 @@ fun ProfileCard() {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            "E",
+                            text = "E",
                             color = Color.Black,
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp
@@ -148,25 +155,25 @@ fun ProfileCard() {
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "Elite Membership",
+                        text = "Elite Membership",
                         color = Color.Yellow,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
                 }
 
-                // Right side: "Join Now >"
+                // 🔹 Right side: Text + Chevron icon
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        "Join Now",
+                        text = "Join Now",
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = "Arrow",
+                        imageVector = arrowIcon, // ✅ Remembered icon
+                        contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(18.dp)
                     )
@@ -176,35 +183,139 @@ fun ProfileCard() {
     }
 }
 
-
+@SuppressLint("SuspiciousIndentation")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileSection(modifier: Modifier = Modifier) {
+fun ProfileSection(
+    isLoggedIn: Boolean,
+    onLoginSuccess: () -> Unit,
+    onLogout: () -> Unit,
+    onNavigateToProfile: () -> Unit
+) {
+    var showSheet by remember { mutableStateOf(false) }
+
+    val profilePainter = painterResource(id = R.drawable.ic_launcher_foreground)
+
+    // ✅ Base Row (fixed height to keep layout consistent)
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp)
+            .then(
+                if (isLoggedIn)
+                    Modifier.clickable(
+                        indication = rememberRipple(),
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) { onNavigateToProfile() }
+                else Modifier
+            )
+            .padding(horizontal = 16.dp)
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "Profile Picture",
-            modifier = Modifier.size(48.dp),
-            tint = Color.Gray
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text("Onkar More", fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text("+91 8999454017", color = Color.Gray, fontSize = 14.sp)
+        // ✅ Show profile picture only if logged in
+        if (isLoggedIn) {
+            Icon(
+                painter = profilePainter,
+                contentDescription = "Profile Picture",
+                modifier = Modifier.size(48.dp),
+                tint = Color.Gray
+            )
+            Spacer(modifier = Modifier.width(12.dp))
         }
-        Spacer(modifier = Modifier.weight(1f))
-        CoinDisplay(0)
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            if (isLoggedIn) {
+                Text(
+                    text = "Customer Name",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = "+91 ********14",
+                    color = Color.Gray,
+                    fontSize = 14.sp
+                )
+            } else {
+                Text(
+                    text = "Your Profile",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = "Log in or sign up to view your complete profile",
+                    color = Color.Gray,
+                    fontSize = 13.sp
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        // ✅ Right side: CoinDisplay or Button
+        if (isLoggedIn) {
+            CoinDisplay(0)
+        } else {
+            Button(
+                onClick = { showSheet = true },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFD32F2F),
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(8.dp),
+                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp),
+                modifier = Modifier.height(32.dp)
+            ) {
+                Text(
+                    text = "Login/Signup",
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+    }
+
+    // ✅ Bottom Sheet for login/signup
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+            scrimColor = Color.Black.copy(alpha = 0.5f)
+        ) {
+            var showOtpSheet by remember { mutableStateOf(false) }
+            var mobileNumberForOtp by remember { mutableStateOf("") }
+
+            if (!showOtpSheet) {
+                FullScreenLoginPage(
+                    onGetOtp = { mobile ->
+                        mobileNumberForOtp = mobile
+                        showOtpSheet = true
+                    },
+                    onSkip = null
+                )
+            } else {
+                ExistingOtpScreen(
+                    mobileNumber = mobileNumberForOtp,
+                    onLoginSuccess = {
+                        showSheet = false
+                        onLoginSuccess()
+                    },
+                    onBack = { showOtpSheet = false }
+                )
+            }
+        }
     }
 }
+
 
 @Composable
 fun CoinDisplay(coins: Int) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
+            .background(Color.White, RoundedCornerShape(16.dp))
             .padding(8.dp)
     ) {
         Icon(
@@ -374,42 +485,67 @@ fun OtherInfo() {
 }
 
 @Composable
-fun EarnOption(title: String) {
+fun EarnOption(
+    title: String,
+    onClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Handle click */ }
-            .padding(1.dp),
+            .clickable(
+                indication = rememberRipple(),
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onClick() }
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
-    ){
-    Icon(
-        painter = painterResource(id = R.drawable.ic_launcher_foreground),
-        contentDescription = "Profile Picture",
-        modifier = Modifier.size(48.dp),
-        tint = Color.Gray
-    )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = null,
+            modifier = Modifier
+                .size(28.dp)
+                .padding(end = 12.dp),
+            tint = Color.Gray
+        )
+
         Text(
             text = title,
             fontSize = 16.sp,
+            color = Color.Black,
             modifier = Modifier.weight(1f)
         )
+
         Icon(
             imageVector = Icons.Default.ChevronRight,
-            contentDescription = "Arrow",
-                    modifier = Modifier
-                    .padding(end = 10.dp) // Reduced right padding to move left
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = Color.Gray
         )
     }
 }
 
+
+
 @Composable
-fun LogOut() {
+fun LogOut(
+    onLogoutConfirmed: () -> Unit
+) {
+    // ✅ Declare state correctly
+    var showDialog by remember { mutableStateOf(false) }
+
+    // 🔹 Logout Card
     Card(
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp) // Set small height for WalletSection
+            .height(50.dp)
+            .clickable(
+                indication = rememberRipple(), // 🔹 Ripple effect on click
+                interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+            ) {
+                showDialog = true
+            }
     ) {
         Row(
             modifier = Modifier
@@ -417,16 +553,47 @@ fun LogOut() {
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "Wallet")
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Logout", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             Icon(
-                imageVector = Icons.Filled.ChevronRight, // Built-in right arrow icon
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = "Logout Icon"
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Logout",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Filled.ChevronRight,
                 contentDescription = "Arrow",
-                modifier = Modifier
-                    .padding(end = 10.dp) // Reduced right padding to move left
+                modifier = Modifier.padding(end = 10.dp)
             )
         }
+    }
+
+    // ✅ Show confirmation dialog safely
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Confirm Logout") },
+            text = { Text("Are you sure you want to logout?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog = false
+                        // ✅ Trigger logout safely after recomposition
+                        onLogoutConfirmed()
+                    }
+                ) {
+                    Text("Yes", color = Color.Red)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 
@@ -454,7 +621,6 @@ fun AppVersionSection() {
     }
 }
 
-
 @Composable
 fun CustomDivider() {
     Divider(
@@ -465,4 +631,3 @@ fun CustomDivider() {
             .padding(horizontal = 16.dp)
     )
 }
-

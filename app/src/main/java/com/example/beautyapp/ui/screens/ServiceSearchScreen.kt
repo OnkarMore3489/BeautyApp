@@ -2,6 +2,7 @@ package com.example.beautyapp.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -10,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,7 +40,13 @@ fun ServiceSearchScreen(navController: NavController) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back",
-                    modifier = Modifier.clickable { navController.popBackStack() }
+//                    modifier = Modifier.clickable { navController.popBackStack() }
+                    modifier = Modifier.clickable(
+                        indication = rememberRipple(), // 🔹 Ripple effect on click
+                interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+                ) {
+                        navController.popBackStack()
+            },
                 )
             },
             shape = RoundedCornerShape(20.dp),
@@ -91,7 +99,13 @@ fun ServiceChip(service: String, onServiceClick: (String) -> Unit) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .clickable { onServiceClick(service) } // Triggers search
+//                .clickable { onServiceClick(service) } // Triggers search
+                .clickable(
+                    indication = rememberRipple(), // 🔹 Ripple effect on click
+                    interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+                ) {
+                    onServiceClick(service)
+                }
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Icon(

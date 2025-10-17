@@ -2,6 +2,7 @@ package com.example.beautyapp.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -9,8 +10,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +39,13 @@ fun LocationScreen(navController: NavController) {
                 contentDescription = "Back",
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { navController.popBackStack() }
+//                    .clickable { navController.popBackStack() }
+                      .clickable(
+                        indication = rememberRipple(), // 🔹 Ripple effect on click
+                        interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+                    ) {
+                          navController.popBackStack()
+                    }
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
@@ -73,7 +82,12 @@ fun LocationScreen(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { /* Handle Add Address Click */ }
+//                        .clickable { /* Handle Add Address Click */ }
+                        .clickable(
+                            indication = rememberRipple(), // 🔹 Ripple effect on click
+                            interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+                        ) {
+                        }
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -97,7 +111,12 @@ fun LocationScreen(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { /* Handle Use Current Location Click */ }
+//                        .clickable { /* Handle Use Current Location Click */ }
+                        .clickable(
+                            indication = rememberRipple(), // 🔹 Ripple effect on click
+                            interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+                        ) {
+                        }
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -154,7 +173,12 @@ fun LocationScreen(navController: NavController) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { /* Handle address selection */ },
+//                .clickable { /* Handle address selection */ },
+            .clickable(
+                indication = rememberRipple(), // 🔹 Ripple effect on click
+        interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+        ) {
+    },
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(Color.White)
         ) {

@@ -9,80 +9,66 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.beautyapp.ui.screens.Account
 import com.example.beautyapp.ui.screens.Booking
 import com.example.beautyapp.ui.screens.CustomBottomNavigationBar
+import com.example.beautyapp.ui.screens.ExistingOtpScreen
 import com.example.beautyapp.ui.screens.HomeScreen
 import com.example.beautyapp.ui.screens.LocationScreen
 import com.example.beautyapp.ui.screens.MenHomeScreen
+import com.example.beautyapp.ui.screens.ProfileScreen
 import com.example.beautyapp.ui.screens.ServiceSearchScreen
-
-//@Composable
-//fun AppNavHost(navController: NavHostController) {
-//    NavHost(navController = navController, startDestination = "home") {
-//        composable("home") { HomeScreen(navController) }
-//        composable("location") { LocationScreen(navController) }
-//        composable("search") { ServiceSearchScreen(navController) }
-//        composable("men") { MenHomeScreen(navController) }
-//    }
-//}
-
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun AppNavHost(navController: NavHostController) {
+fun AppNavHost(
+    navController: NavHostController,
+    isLoggedIn: Boolean,
+    onLoginSuccess: () -> Unit,
+    onLogout: () -> Unit
+) {
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
-
-    val screensWithBottomNav = listOf("home", "men","account","booking")
-
     val currentRoute = currentBackStackEntry.value?.destination?.route
+    val screensWithBottomNav = listOf("home", "men", "account", "booking")
 
-        NavHost(navController, startDestination = "home") {
-            // Screens without Bottom Navigation
-            composable("location") { LocationScreen(navController) }
-            composable("search") { ServiceSearchScreen(navController) }
+    NavHost(
+        navController = navController,
+        startDestination = "home"
+    ) {
+        // Regular Screens
+        composable("home") { HomeScreen(navController) }
+        composable("men") { MenHomeScreen(navController) }
+        composable("location") { LocationScreen(navController) }
+        composable("search") { ServiceSearchScreen(navController) }
+        composable("booking") { Booking(navController, isLoggedIn,onLoginSuccess = onLoginSuccess) }
+        composable("profile") { ProfileScreen(navController = navController) }
 
-            // Screens with Bottom Navigation
-            composable("home") { HomeScreen(navController) }
-            composable("men") { MenHomeScreen(navController) }
-            composable("home") { HomeScreen(navController) }
-            composable("account") { Account(navController) }
-            composable("booking") { Booking(navController) }
+        // Account screen with login state
+        composable("account") {
+            Account(
+                navController = navController,
+                isLoggedIn = isLoggedIn,
+                onLoginSuccess = onLoginSuccess,
+                onLogout = onLogout
+            )
         }
 
-        // ✅ Show Bottom Navigation only for specific screens
-        if (currentRoute in screensWithBottomNav) {
-            CustomBottomNavigationBar(navController)
+        // ✅ OTP screen
+        composable("otp_screen") {
+            val mobileNumber = navController.previousBackStackEntry
+                ?.savedStateHandle?.get<String>("mobileNumber") ?: ""
+            ExistingOtpScreen(
+                mobileNumber = mobileNumber,
+                onLoginSuccess = {
+                    // Login happens only after Verify OTP
+                    onLoginSuccess()
+                    navController.popBackStack() // remove OTP screen from back stack
+                },
+                onBack = {
+                    navController.popBackStack() // ✅ go back to previous screen on back
+                }
+            )
         }
+    }
+
+    // Bottom navigation visible only for selected screens
+    if (currentRoute in screensWithBottomNav) {
+        CustomBottomNavigationBar(navController)
+    }
 }
-
-
-
-//@Composable
-//fun AppNavigator() {
-//    val navController = rememberNavController()
-//    val currentBackStackEntry = navController.currentBackStackEntryAsState()
-//
-//    // ✅ Define screens where BottomNavigationBar should be visible
-//    val screensWithBottomNav = listOf("women", "men", "booking", "account")
-//
-//    Scaffold(
-//        bottomBar = {
-//            val currentRoute = currentBackStackEntry.value?.destination?.route
-//            if (currentRoute in screensWithBottomNav) {
-//                CustomBottomNavigationBar(navController)
-//            }
-//        }
-//    ) { paddingValues ->
-//        Box(modifier = Modifier.padding(paddingValues)) {
-//            NavHost(navController, startDestination = "login") { // ✅ Start at login screen
-//                // ✅ Screens without BottomNavigationBar
-//                composable("location") { LocationScreen(navController) }
-//                composable("search") { ServiceSearchScreen(navController) }
-//
-//                // ✅ Screens with BottomNavigationBar
-//                composable("home") { HomeScreen(navController) }
-//                composable("men") { MenHomeScreen(navController) }
-////                composable("booking") { BookingScreen(navController) }
-////                composable("account") { AccountScreen(navController) }
-//            }
-//        }
-//    }
-//}
-
