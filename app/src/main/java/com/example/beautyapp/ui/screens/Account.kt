@@ -62,24 +62,24 @@ fun Account(
                         .background(Color(0xFFF8F6F8))
                         .padding(16.dp)
                 ) {
-                    WalletSection()
-                    Spacer(modifier = Modifier.height(15.dp))
-                    FeatureButtonsRow()
-                    Spacer(modifier = Modifier.height(15.dp))
-                    EarnWithUsSection_Updated()
-                    Spacer(modifier = Modifier.height(15.dp))
-                    EarnWithUsSection()
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Read()
-                    Spacer(modifier = Modifier.height(15.dp))
-                    OtherInfo()
+//                    WalletSection()
+//                    Spacer(modifier = Modifier.height(15.dp))
+//                    FeatureButtonsRow()
+//                    Spacer(modifier = Modifier.height(15.dp))
+//                    EarnWithUsSection_Updated()
+//                    Spacer(modifier = Modifier.height(15.dp))
+//                    EarnWithUsSection()
+//                    Spacer(modifier = Modifier.height(15.dp))
+//                    Read()
+//                    Spacer(modifier = Modifier.height(15.dp))
+//                    OtherInfo()
                     Spacer(modifier = Modifier.height(15.dp))
                     if (isLoggedIn) {
                         LogOut(onLogoutConfirmed = { onLogout() })
                     }
                     Spacer(modifier = Modifier.height(15.dp))
-                    AppVersionSection()
-                    Spacer(modifier = Modifier.height(50.dp))
+//                    AppVersionSection()
+//                    Spacer(modifier = Modifier.height(50.dp))
                 }
             }
         }

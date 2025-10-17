@@ -59,130 +59,130 @@ import androidx.compose.material.ripple.rememberRipple
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    val scrollState = rememberScrollState()
-
-    // Track background color dynamically based on scroll position
-    val backgroundColor by remember {
-        derivedStateOf {
-            if (scrollState.value > 100) Color.White else Color.Transparent
-        }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Ensures full screen is scrollable
-            .padding(bottom = 56.dp) // Space for bottom navigation bar
-    ) {
-        Box(modifier = Modifier.fillMaxSize())
-        {
-            Image(
-                painter = rememberAsyncImagePainter(model = "https://yourimageurl.com/banner.png"),
-                contentDescription = "Promo Banner",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(385.dp)
-            )
-            Column(
-            ) {
-                // 🔹 Location & Buy Elite Section
-                Row(
-//                    modifier = Modifier
-//                        .clickable { navController.navigate("location") },
-                      modifier = Modifier.clickable(
-                          indication = rememberRipple(), // 🔹 Ripple effect on click
-                          interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
-                      ) {
-                        navController.navigate("location")
-                      }
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Column {
-                        Row(verticalAlignment = Alignment.CenterVertically) { // Keeps text and icon in one line
-                            Text(
-                                text = "Dhanori",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp
-                            )
-                            Icon(
-                                imageVector = Icons.Default.ArrowDropDown,
-                                contentDescription = "Dropdown Arrow",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .padding(start = 4.dp) // Adds space between text and icon
-                            )
-                        }
-                        Text(
-                            "1, Dhanori-Lohegaon Rd, Parande...",
-                            fontSize = 12.sp,
-                            color = Color.Gray
-                        )
-                    }
-                    Button(
-                        onClick = { /* Handle Buy Elite */ },
-                        colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)), // Gold Color
-                        shape = CircleShape
-                    ) {
-                        Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
-                    }
-                }
-            // 🔹 Search Bar
-                AnimatedSearchBar(navController)
-            }
-        }
-
-        // 🔹 Loot of the Year Row
-        MarqueeText()
-
-        OffersSection()
-
-        // 🔹 Everything That You Need - Services Section
-        Text(
-            text = "Everything That You Need",
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(8.dp)
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-        ) {
-            ServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
-            ServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
-            ServiceItem(R.drawable.ic_launcher_foreground, "Advance")
-            //ServiceItem(R.drawable.ic_launcher_background, "") // Placeholder for last item
-        }
-        Spacer(modifier = Modifier.height(15.dp))
-        EliteBanner()
-        Spacer(modifier = Modifier.height(28.dp))
-        TrendingServicesSection()
-        Spacer(modifier = Modifier.height(28.dp))
-        ChatWithCosmetologist()
-        Spacer(modifier = Modifier.height(28.dp))
-        HydraTreatmentsUI()
-        Spacer(modifier = Modifier.height(28.dp))
-        //Trending near you section
-        HydraTreatmentsUI_Updated()
-        Spacer(modifier = Modifier.height(28.dp))
-        HorizontalScrollCardWithDots()
-        Spacer(modifier = Modifier.height(28.dp))
-        SalonPackageList()
-        Spacer(modifier = Modifier.height(28.dp))
-        ChatWithCosmetologist_Updated()
-        Spacer(modifier = Modifier.height(28.dp))
-        SalonHomeScreen()
-        Spacer(modifier = Modifier.height(28.dp))
-        ChatWithCosmetologist_UpdatedNew()
-        Spacer(modifier = Modifier.height(28.dp))
-        SalonHomeScreen_Updated()
-        Spacer(modifier = Modifier.height(28.dp))
-        VideoListScreen_Women(navController)
-        Spacer(modifier = Modifier.height(40.dp))
-    }
+//    val scrollState = rememberScrollState()
+//
+//    // Track background color dynamically based on scroll position
+//    val backgroundColor by remember {
+//        derivedStateOf {
+//            if (scrollState.value > 100) Color.White else Color.Transparent
+//        }
+//    }
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .verticalScroll(rememberScrollState()) // Ensures full screen is scrollable
+//            .padding(bottom = 56.dp) // Space for bottom navigation bar
+//    ) {
+//        Box(modifier = Modifier.fillMaxSize())
+//        {
+//            Image(
+//                painter = rememberAsyncImagePainter(model = "https://yourimageurl.com/banner.png"),
+//                contentDescription = "Promo Banner",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(385.dp)
+//            )
+//            Column(
+//            ) {
+//                // 🔹 Location & Buy Elite Section
+//                Row(
+////                    modifier = Modifier
+////                        .clickable { navController.navigate("location") },
+//                      modifier = Modifier.clickable(
+//                          indication = rememberRipple(), // 🔹 Ripple effect on click
+//                          interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+//                      ) {
+//                        navController.navigate("location")
+//                      }
+//                        .fillMaxWidth()
+//                        .padding(16.dp),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//                    Column {
+//                        Row(verticalAlignment = Alignment.CenterVertically) { // Keeps text and icon in one line
+//                            Text(
+//                                text = "Dhanori",
+//                                fontWeight = FontWeight.Bold,
+//                                fontSize = 18.sp
+//                            )
+//                            Icon(
+//                                imageVector = Icons.Default.ArrowDropDown,
+//                                contentDescription = "Dropdown Arrow",
+//                                modifier = Modifier
+//                                    .size(30.dp)
+//                                    .padding(start = 4.dp) // Adds space between text and icon
+//                            )
+//                        }
+//                        Text(
+//                            "1, Dhanori-Lohegaon Rd, Parande...",
+//                            fontSize = 12.sp,
+//                            color = Color.Gray
+//                        )
+//                    }
+//                    Button(
+//                        onClick = { /* Handle Buy Elite */ },
+//                        colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)), // Gold Color
+//                        shape = CircleShape
+//                    ) {
+//                        Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
+//                    }
+//                }
+//            // 🔹 Search Bar
+//                AnimatedSearchBar(navController)
+//            }
+//        }
+//
+//        // 🔹 Loot of the Year Row
+//        MarqueeText()
+//
+//        OffersSection()
+//
+//        // 🔹 Everything That You Need - Services Section
+//        Text(
+//            text = "Everything That You Need",
+//            fontWeight = FontWeight.Bold,
+//            fontSize = 18.sp,
+//            modifier = Modifier.padding(8.dp)
+//        )
+//
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .horizontalScroll(rememberScrollState())
+//                .padding(horizontal = 16.dp)
+//        ) {
+//            ServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
+//            ServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
+//            ServiceItem(R.drawable.ic_launcher_foreground, "Advance")
+//            //ServiceItem(R.drawable.ic_launcher_background, "") // Placeholder for last item
+//        }
+//        Spacer(modifier = Modifier.height(15.dp))
+//        EliteBanner()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        TrendingServicesSection()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        ChatWithCosmetologist()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        HydraTreatmentsUI()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        //Trending near you section
+//        HydraTreatmentsUI_Updated()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        HorizontalScrollCardWithDots()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        SalonPackageList()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        ChatWithCosmetologist_Updated()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        SalonHomeScreen()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        ChatWithCosmetologist_UpdatedNew()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        SalonHomeScreen_Updated()
+//        Spacer(modifier = Modifier.height(28.dp))
+//        VideoListScreen_Women(navController)
+//        Spacer(modifier = Modifier.height(40.dp))
+//    }
     CustomBottomNavigationBar(navController)
 }
 

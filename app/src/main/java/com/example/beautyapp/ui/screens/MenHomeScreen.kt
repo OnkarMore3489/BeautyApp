@@ -165,141 +165,141 @@ import java.lang.Float.min
 
 @Composable
 fun MenHomeScreen(navController: NavController) {
-    val listState = rememberLazyListState()
-
-    // Color changes only when the user has scrolled
-    val hasScrolled = listState.firstVisibleItemIndex > 0 ||
-            listState.firstVisibleItemScrollOffset > 0
-
-    // Choose colors blased on scroll state
-    val targetColor = if (hasScrolled) Color.Blue else Color.Red
-
-    // Animate the transition
-    val animatedColor by animateColorAsState(
-        targetValue = targetColor,
-        label = "bgColor"
-    )
-
-    val scrollState = rememberScrollState()
+//    val listState = rememberLazyListState()
 //
-//// Calculate alpha based on scroll position (max alpha at 300dp scroll)
-//    val backgroundColor by remember {
-//        derivedStateOf {
-//            val alpha = (scrollState.value.coerceIn(0, 300)) / 300f
-//            Color.Gray.copy(alpha = alpha)
+//    // Color changes only when the user has scrolled
+//    val hasScrolled = listState.firstVisibleItemIndex > 0 ||
+//            listState.firstVisibleItemScrollOffset > 0
+//
+//    // Choose colors blased on scroll state
+//    val targetColor = if (hasScrolled) Color.Blue else Color.Red
+//
+//    // Animate the transition
+//    val animatedColor by animateColorAsState(
+//        targetValue = targetColor,
+//        label = "bgColor"
+//    )
+//
+//    val scrollState = rememberScrollState()
+////
+////// Calculate alpha based on scroll position (max alpha at 300dp scroll)
+////    val backgroundColor by remember {
+////        derivedStateOf {
+////            val alpha = (scrollState.value.coerceIn(0, 300)) / 300f
+////            Color.Gray.copy(alpha = alpha)
+////        }
+////    }
+//
+//    Box(modifier = Modifier.fillMaxSize()) {
+//        // 🔹 1. Background Scrollable Content
+//        LazyColumn(
+//            modifier = Modifier.fillMaxSize()
+//        ) {
+//            // 🔹 Banner image (scrolls behind)
+//            item {
+//                Image(
+//                    painter = rememberAsyncImagePainter("https://yourimageurl.com/banner.png"),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(385.dp)
+//                )
+//            }
+//
+//            // 🔹 Space to push content below sticky header
+//            item {
+//                Spacer(modifier = Modifier.height(120.dp)) // Push rest of content below sticky header
+//            }
+//
+//            // 🔹 Loot of Year & Sections
+//            item { MenMarqueeText() }
+//
+//            item {
+//                Text(
+//                    text = "Everything That You Need",
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 18.sp,
+//                    modifier = Modifier.padding(8.dp)
+//                )
+//            }
+//
+//            item {
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .horizontalScroll(rememberScrollState())
+//                        .padding(horizontal = 16.dp)
+//                ) {
+//                    MenServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
+//                    MenServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
+//                    MenServiceItem(R.drawable.ic_launcher_foreground, "Advance")
+//                }
+//            }
+//
+//            item { Spacer(modifier = Modifier.height(15.dp)) }
+//            item { MenEliteBanner() }
+//            item { Spacer(modifier = Modifier.height(28.dp)) }
+//            item { MenTrendingServicesSection() }
+//            item { Spacer(modifier = Modifier.height(28.dp)) }
+//            item { MenChatWithCosmetologist() }
+//            item { Spacer(modifier = Modifier.height(28.dp)) }
+//            item { VideoListScreen(navController) }
+//            item { Spacer(modifier = Modifier.height(40.dp)) }
+//        }
+//
+//        // 🔹 2. Sticky Location + Search Section - Overlayed on top
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .background(animatedColor)
+//                .zIndex(1f)
+//                .padding(16.dp)
+//        ) {
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+////                    .clickable { navController.navigate("location") },
+//                .clickable(
+//                    indication = rememberRipple(), // 🔹 Ripple effect on click
+//            interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
+//            ) {
+//            navController.navigate("location")
+//        },
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Column {
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        Text(
+//                            text = "Dhanori",
+//                            fontWeight = FontWeight.Bold,
+//                            fontSize = 18.sp
+//                        )
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowDropDown,
+//                            contentDescription = "Dropdown Arrow",
+//                            modifier = Modifier.size(30.dp)
+//                        )
+//                    }
+//                    Text(
+//                        "1, Dhanori-Lohegaon Rd, Parande...",
+//                        fontSize = 12.sp,
+//                        color = Color.Gray
+//                    )
+//                }
+//
+//                Button(
+//                    onClick = { /* Handle Buy Elite */ },
+//                    colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)),
+//                    shape = CircleShape
+//                ) {
+//                    Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
+//                }
+//            }
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//            MenAnimatedSearchBar(navController)
 //        }
 //    }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        // 🔹 1. Background Scrollable Content
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // 🔹 Banner image (scrolls behind)
-            item {
-                Image(
-                    painter = rememberAsyncImagePainter("https://yourimageurl.com/banner.png"),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(385.dp)
-                )
-            }
-
-            // 🔹 Space to push content below sticky header
-            item {
-                Spacer(modifier = Modifier.height(120.dp)) // Push rest of content below sticky header
-            }
-
-            // 🔹 Loot of Year & Sections
-            item { MenMarqueeText() }
-
-            item {
-                Text(
-                    text = "Everything That You Need",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
-
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp)
-                ) {
-                    MenServiceItem(R.drawable.ic_launcher_foreground, "Salon At Home")
-                    MenServiceItem(R.drawable.ic_launcher_foreground, "Pre Bridal")
-                    MenServiceItem(R.drawable.ic_launcher_foreground, "Advance")
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(15.dp)) }
-            item { MenEliteBanner() }
-            item { Spacer(modifier = Modifier.height(28.dp)) }
-            item { MenTrendingServicesSection() }
-            item { Spacer(modifier = Modifier.height(28.dp)) }
-            item { MenChatWithCosmetologist() }
-            item { Spacer(modifier = Modifier.height(28.dp)) }
-            item { VideoListScreen(navController) }
-            item { Spacer(modifier = Modifier.height(40.dp)) }
-        }
-
-        // 🔹 2. Sticky Location + Search Section - Overlayed on top
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(animatedColor)
-                .zIndex(1f)
-                .padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-//                    .clickable { navController.navigate("location") },
-                .clickable(
-                    indication = rememberRipple(), // 🔹 Ripple effect on click
-            interactionSource = remember { MutableInteractionSource() } // 🔹 Tracks touch events
-            ) {
-            navController.navigate("location")
-        },
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "Dhanori",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
-                        )
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = "Dropdown Arrow",
-                            modifier = Modifier.size(30.dp)
-                        )
-                    }
-                    Text(
-                        "1, Dhanori-Lohegaon Rd, Parande...",
-                        fontSize = 12.sp,
-                        color = Color.Gray
-                    )
-                }
-
-                Button(
-                    onClick = { /* Handle Buy Elite */ },
-                    colors = ButtonDefaults.buttonColors(Color(0xFFD4AF37)),
-                    shape = CircleShape
-                ) {
-                    Text("Buy Elite", color = Color.Black, fontWeight = FontWeight.Bold)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            MenAnimatedSearchBar(navController)
-        }
-    }
 }
 
 
