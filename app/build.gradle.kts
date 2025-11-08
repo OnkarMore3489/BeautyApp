@@ -2,18 +2,15 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.kotlinCompose)
-    id("com.google.devtools.ksp")
- //   alias(libs.plugins.kspAndroid)
-   }
+    id("kotlin-kapt")
+}
 
 android {
-    namespace = "com.beautyfox.customerapp"
-    compileSdk = 36
+    namespace = "com.example.beautyapp"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.beautyfox.customerapp"
+        applicationId = "com.example.beautyapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -45,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
@@ -56,7 +53,16 @@ android {
 
 dependencies {
 
-    implementation(libs.core.ktx)
+    implementation("androidx.room:room-runtime:2.6.1") // Or the latest stable version
+    kapt("androidx.room:room-compiler:2.6.1") // Or the latest stable version
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("com.google.android.gms:play-services-auth-api-phone:18.0.1")
+
+    implementation("com.google.android.gms:play-services-auth-api-phone:18.0.1")
+
+implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -64,37 +70,23 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    implementation(libs.coil.compose) // Latest version
-
+    implementation("io.coil-kt:coil-compose:2.6.0") // Latest version
     // Jetpack Compose BOM (Ensures version compatibility)
-    implementation(platform(libs.androidx.compose.bom.v20240100))
-    implementation(libs.androidx.material.icons.extended) // Use latest version
-
+    implementation(platform("androidx.compose:compose-bom:2024.01.00"))
+    implementation("androidx.compose.material:material-icons-extended:1.7.8") // Use latest version
     // Compose Navigation
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.hilt.common)
-    implementation(libs.androidx.ui.text.google.fonts)
-    implementation(libs.accompanist.pager)
+    implementation("androidx.navigation:navigation-compose:2.8.8")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.1.0")
+    implementation("com.google.accompanist:accompanist-pager:0.23.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.foundation)
     implementation(libs.play.services.location)
-
-    //Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-
-    //HILT
-    implementation(libs.google.dagger.hilt)
-//    implementation(libs.google.dagger.ksp)
-    ksp(libs.hilt.compiler)
-
-
-//    implementation("androidx.compose.foundation:foundation:1.7.8") // Ensure latest Compose version
-//    implementation("androidx.compose.foundation:foundation-pager:1.0.0") // For Pager support
+    implementation(libs.androidx.runtime)
+    implementation(libs.androidx.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
